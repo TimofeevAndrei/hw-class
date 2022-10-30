@@ -17,8 +17,10 @@ class Student:
             return 'Ошибка'
 
     def __str__(self):
-        res = (f'Студент - {self.name} {self.surname}\nПол - {self.gender}\nТекущий курс - {self.courses_in_progress}'
-        f'\nЗавершенные курсы - {self.finished_courses}')
+        course_p = ", ".join(self.courses_in_progress)
+        course_f = ", ".join(self.finished_courses)
+        res = (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.grades}'
+        f'\nКурсы в процессе изучения: {course_p}\nЗавершенные курсы: {course_f}')
         return res
 
 
@@ -33,6 +35,10 @@ class Lecturer(Mentor):
         super().__init__(name, surname)
         self.courses_attached = []
         self.grades = {}
+
+    def __str__(self):
+        res = (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.grades}')
+        return res
 
 
 class Reviewer(Mentor):
@@ -49,8 +55,27 @@ class Reviewer(Mentor):
         else:
             return 'Ошибка'
 
+    def __str__(self):
+        res = (f'Имя: {self.name}\nФамилия: {self.surname}')
+        return res
+
+one_reviewer = Reviewer('Freddy', 'Kruger')
+two_reviewer = Reviewer('Frodo', 'Beggins')
+print(one_reviewer)
+print()
+
+one_lecturer = Lecturer('Oleg', 'Buligin')
+one_lecturer.courses_attached = ['Git']
+print(one_lecturer)
+print()
 
 one_student = Student('Andy', 'Tim', 'Male')
-one_student.finished_courses = ['Git']
-one_student.courses_in_progress = ['Python']
+one_student.finished_courses = ['Введение в програмирование']
+one_student.courses_in_progress = ['Python', 'Git']
 print(one_student)
+
+
+
+
+
+
