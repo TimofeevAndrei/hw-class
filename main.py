@@ -16,6 +16,11 @@ class Student:
         else:
             return 'Ошибка'
 
+    def __str__(self):
+        res = (f'Студент - {self.name} {self.surname}\nПол - {self.gender}\nТекущий курс - {self.courses_in_progress}'
+        f'\nЗавершенные курсы - {self.finished_courses}')
+        return res
+
 
 class Mentor:
     def __init__(self, name, surname):
