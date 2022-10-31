@@ -7,7 +7,7 @@ class Student:
         self.courses_in_progress = []
         self.grades = {}
 
-    def __agrade(self, grades):
+    def agrade(self, grades):
         count = 0
         _sum = 0
         for key in grades:
@@ -27,10 +27,15 @@ class Student:
     def __str__(self):
         course_p = ", ".join(self.courses_in_progress)
         course_f = ", ".join(self.finished_courses)
-        res = (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.__agrade(self.grades)}'
+        res = (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за домашние задания: {self.agrade(self.grades)}'
         f'\nКурсы в процессе изучения: {course_p}\nЗавершенные курсы: {course_f}')
         return res
 
+    def __lt__(self, other):
+        if not isinstance(other, Student):
+            print('Это не студент!')
+            return
+        return {self.agrade(self.grades)} > {other.agrade(other.grades)}
 
 class Mentor:
     def __init__(self, name, surname):
@@ -44,7 +49,7 @@ class Lecturer(Mentor):
         self.courses_attached = []
         self.grades = {}
 
-    def __agrade(self, grades):
+    def agrade(self, grades):
         count = 0
         _sum = 0
         for key in grades:
@@ -52,8 +57,14 @@ class Lecturer(Mentor):
             _sum += grades[key]
         return round(_sum/count, 1)
 
+    def __lt__(self, other):
+        if not isinstance(other, Lecturer):
+            print('Это не лектор!')
+            return
+        return {self.agrade(self.grades)} > {other.agrade(other.grades)}
+
     def __str__(self):
-        res = (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.__agrade(self.grades)}')
+        res = (f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции: {self.agrade(self.grades)}')
         return res
 
 
@@ -86,12 +97,19 @@ one_lecturer = Lecturer('Олег', 'Булыгин')
 one_lecturer.courses_attached = ['Git']
 one_lecturer.grades = {'Class': 10, 'OOP': 10, 'Function': 10}
 
-two_lecturer = Lecturer('Махрипа', 'Харипулавена')
+two_lecturer = Lecturer('Махрипа', 'Харипулаевна')
 two_lecturer.courses_attached = ['Git']
-two_lecturer.grades = {'Class': 10, 'OOP': 10, 'Function': 10}
+two_lecturer.grades = {'Class': 7, 'OOP': 9, 'Function': 8}
 print(one_lecturer)
 print()
 print(two_lecturer)
+print()
+
+print('Лучший лектор по средней оценке:')
+if two_lecturer.agrade(two_lecturer.grades) > one_lecturer.agrade(one_lecturer.grades):
+    print(f'{two_lecturer.name} {two_lecturer.surname} - {two_lecturer.agrade(two_lecturer.grades)}')
+else:
+    print(f'{one_lecturer.name} {one_lecturer.surname} - {one_lecturer.agrade(one_lecturer.grades)}')
 print()
 
 one_student = Student('Андрей', 'Тимофеев', 'Male')
@@ -106,6 +124,14 @@ two_student.grades = {'Basic_python': 9, 'English': 6, 'Function': 7}
 print(one_student)
 print()
 print(two_student)
+print()
+
+print('Лучший стунден по средней оценке:')
+if two_student.agrade(two_student.grades) > one_student.agrade(one_student.grades):
+    print(f'{two_student.name} {two_student.surname} - {two_student.agrade(two_student.grades)}')
+else:
+    print(f'{one_student.name} {one_student.surname} - {one_student.agrade(one_student.grades)}')
+
 
 
 
