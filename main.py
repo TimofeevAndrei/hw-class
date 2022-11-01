@@ -1,4 +1,5 @@
 class Student:
+    student_list=[]
     def __init__(self, name, surname, gender):
         self.name = name
         self.surname = surname
@@ -6,6 +7,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+        Student.student_list.append(self)
 
     def agrade(self, grades):
         a=0
@@ -44,10 +46,12 @@ class Mentor:
 
 
 class Lecturer(Mentor):
+    lecturer_list = []
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.courses_attached = []
         self.grades = {}
+        Lecturer.lecturer_list.append(self)
 
     def agrade(self, grades):
         a=0
@@ -141,6 +145,20 @@ else:
     print(f'{one_lecturer.name} {one_lecturer.surname} - {one_lecturer.agrade(one_lecturer.grades)}')
 print()
 
+def avg_course(list_avg, course):
+    sum_g = 0
+    len_g = 0
+    for instance in list_avg:
+        if course in instance.grades.keys():
+            sum_g += sum(list(map(int, instance.grades[course])))
+            len_g += len(list(map(int, instance.grades[course])))
+    avg = round(sum_g / len_g, 1)
+    return avg
+
+print(f'Средняя оценка за курс Git среди студентов: {avg_course(Student.student_list, "Git")}')
+print(f'Средняя оценка за курс Git среди лекторов: {avg_course(Lecturer.lecturer_list, "Git")}')
+print(f'Средняя оценка за курс Python среди студентов: {avg_course(Student.student_list, "Python")}')
+print(f'Средняя оценка за курс Python среди лекторов: {avg_course(Lecturer.lecturer_list, "Python")}')
 
 
 
